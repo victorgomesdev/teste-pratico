@@ -1,7 +1,7 @@
 {
   "watch": ["src"],
   "ext": "ts,json",
-  "ignore": ["src/**/*.spec.ts", "src/**/*.test.ts", "node_modules/*", "database/*"],
+  "ignore": ["node_modules/*"],
   "exec": "npx tsc && node dist/server.js",
   "delay": 1000
 }
