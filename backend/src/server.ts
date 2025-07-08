@@ -15,5 +15,5 @@ try {
 app.use('/usuarios', UserController)
 
 app.listen(3000, () => {
-    console.log("Isso é um teste")
+    console.log("SERVER RUNNING")
 })
