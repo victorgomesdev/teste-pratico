@@ -1,9 +1,10 @@
 import { Address } from "./address"
 
 export type User = {
-    id: string,
+    id?: string,
     name: string,
     dateOfBirth: string,
     biography: string,
-    address: Address
+    address: Address,
+    imageBase64?: string
 }
