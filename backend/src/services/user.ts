@@ -1,9 +1,7 @@
 import { Request, Response } from 'express'
-import { sendOk } from '../common/util/send-ok'
-import { UserRespository } from "../datasource/repositories"
-import { AddressRepository } from '../datasource/repositories'
-import { User } from '../common/types/user'
-import { sendBadRequest } from '../common/util/send-bad-request'
+import { UserRespository, AddressRepository } from "../datasource/repositories"
+import { sendBadRequest, sendError, sendOk } from '../common/util'
+import { UserRequest } from '../common/types/user'
 
 export async function getAllUsers(_: Request, res: Response) {
     try {
@@ -12,11 +10,13 @@ export async function getAllUsers(_: Request, res: Response) {
             users: users
         })
     } catch (err) {
-        console.log(err)
+        sendError(res, {
+            message: "Ocorreu um erro interno."
+        })
     }
 }
 
-export async function getUserByUUID(req: Request, res: Response) {
+export async function getUserByUUID(req: Request, res: Response): Promise<void> {
     try {
         const user = await UserRespository.findOne({
             where: {
@@ -26,25 +26,21 @@ export async function getUserByUUID(req: Request, res: Response) {
                 address: true
             }
         })
-
-        if (user) {
-            sendOk(res, {
-                user: user
-            })
-            return
-        }
-
         sendOk(res, {
-            user: null
+            user: user ? user : null
         })
+        return
+
     } catch (err) {
-        console.log(err)
+        sendError(res, {
+            message: 'Ocorreu um erro interno.'
+        })
     }
 }
 
 export async function createUser(req: Request, res: Response) {
 
-    const body = <User>req.body
+    const body = <UserRequest>req.body
 
     try {
         const prev = await UserRespository.findOneBy({
@@ -58,6 +54,7 @@ export async function createUser(req: Request, res: Response) {
             return
         }
 
+        
         await AddressRepository.save(body.address)
         await UserRespository.save(body)
 
@@ -65,14 +62,15 @@ export async function createUser(req: Request, res: Response) {
             created: true
         })
     } catch (err) {
-        console.log(err)
+        sendError(res, {
+            message: "Ocorreu um erro interno"
+        })
     }
-
 }
 
 export async function editUserByUUID(req: Request, res: Response) {
 
-    const body = <Partial<User>>req.body
+    const body = <UserRequest>req.body
     const id = req.params.uuid
 
     try {
@@ -100,6 +98,8 @@ export async function editUserByUUID(req: Request, res: Response) {
             updated: true
         })
     } catch (e) {
-        console.log(e)
+        sendError(res, {
+            message: "Ocorreu um erro interno"
+        })
     }
 }
