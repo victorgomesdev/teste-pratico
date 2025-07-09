@@ -3,7 +3,7 @@ import { sendBadRequest } from '../util/send-bad-request'
 import { UserRequest } from '../types/user'
 import { Address } from '../types/address'
 
-export function validateUserData(req: Request, res: Response, next: NextFunction) {
+export function validateUserData(req: Request, res: Response, next: NextFunction): void {
 
     if (!req.body) {
         sendBadRequest(res, {
@@ -27,7 +27,7 @@ export function validateUserData(req: Request, res: Response, next: NextFunction
     next()
 }
 
-function validateUndefinedFields(user: UserRequest) {
+function validateUndefinedFields(user: UserRequest): boolean {
 
     const keys = Object.entries(user)
     for (let k of keys) {
@@ -38,7 +38,7 @@ function validateUndefinedFields(user: UserRequest) {
     return true
 }
 
-function validateInfo(user: UserRequest) {
+function validateInfo(user: UserRequest): boolean {
 
     const dateTest = /^\d{4}-\d{2}-\d{2}$/
 
@@ -54,7 +54,7 @@ function validateInfo(user: UserRequest) {
     return true
 }
 
-function validarBase64Imagem(imageBase64: string) {
+function validarBase64Imagem(imageBase64: string): boolean {
 
     if (!imageBase64.startsWith('data:image/')) {
         return false;
@@ -72,7 +72,7 @@ function validarBase64Imagem(imageBase64: string) {
     return true;
 }
 
-function validateAddress(address: Address) {
+function validateAddress(address: Address): boolean {
 
     const tests: boolean[] = [
         String(address.city).length > 1,

@@ -19,7 +19,7 @@ const connectDatabase = async () => {
 
 connectDatabase()
 
-app.use(routes.usuarios, UserController)
+app.use(routes.usuarios.path, UserController)
 
 app.listen(3000, () => {
     console.log("SERVER RUNNING")
