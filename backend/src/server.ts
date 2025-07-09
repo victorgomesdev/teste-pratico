@@ -1,18 +1,25 @@
 import express from "express";
 import AppDataSource from "./datasource/app-data-source";
 import { UserController } from "./controllers/user.controller";
+import { routes } from "./routes";
+import { routesValidator } from "./common/validators";
 
 const app = express()
 
 app.use(express.json())
+app.use(routesValidator)
 
-try {
-    AppDataSource.initialize()
-} catch (err) {
-    console.log("Database error: " + err)
+const connectDatabase = async () => {
+    try {
+        await AppDataSource.initialize()
+    } catch (err) {
+        console.log("Database error: " + err)
+    }
 }
 
-app.use('/usuarios', UserController)
+connectDatabase()
+
+app.use(routes.usuarios, UserController)
 
 app.listen(3000, () => {
     console.log("SERVER RUNNING")
