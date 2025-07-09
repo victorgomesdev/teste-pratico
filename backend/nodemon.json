@@ -2,6 +2,6 @@
   "watch": ["src"],
   "ext": "ts,json",
   "ignore": ["node_modules/*"],
-  "exec": "npx tsc && node dist/server.js",
+  "exec": "npx ts-node ./src/server.ts",
   "delay": 1000
 }
