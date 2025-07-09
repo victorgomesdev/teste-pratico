@@ -1,9 +1,10 @@
 import { Request, Response } from 'express'
 import { UserRespository, AddressRepository } from "../datasource/repositories"
-import { sendBadRequest, sendError, sendOk } from '../common/util'
+import { sendBadRequest, sendError, sendOk, UserBuilder } from '../common/util'
 import { UserRequest } from '../common/types/user'
+import { AddressBuilder } from '../common/util/address-builder'
 
-export async function getAllUsers(_: Request, res: Response) {
+export async function getAllUsers(_: Request, res: Response): Promise<void> {
     try {
         const users = await UserRespository.find()
         sendOk(res, {
@@ -38,37 +39,54 @@ export async function getUserByUUID(req: Request, res: Response): Promise<void> 
     }
 }
 
-export async function createUser(req: Request, res: Response) {
+export async function createUser(req: Request, res: Response): Promise<void> {
 
     const body = <UserRequest>req.body
 
     try {
         const prev = await UserRespository.findOneBy({
-            name: body.name
+            email: body.email
         })
 
         if (prev) {
             sendBadRequest(res, {
-                message: 'Esse nome já está em uso.'
+                message: 'Esse email já está em uso.'
             })
             return
         }
 
-        
-        await AddressRepository.save(body.address)
-        await UserRespository.save(body)
+        const address = AddressBuilder
+            .setNumber(body.address.number)
+            .setStreet(body.address.street)
+            .setCity(body.address.city)
+            .setState(body.address.state)
+            .setDistrict(body.address.district)
+            .build()
+
+        const user = UserBuilder
+            .setName(body.name)
+            .setEmail(body.email)
+            .setBiography(body.biography)
+            .setDateOfBith(body.dateOfBirth)
+            .setBase64Image(body.imageBase64 ? body.imageBase64 : '')
+            .setBase64Nmae(body.imageBase64Name ? body.imageBase64Name : '')
+            .setAddress(address)
+            .build()
+
+        await AddressRepository.save(address)
+        await UserRespository.save(user)
 
         sendOk(res, {
             created: true
         })
     } catch (err) {
         sendError(res, {
-            message: "Ocorreu um erro interno"
+            message: "Ocorreu um erro interno."
         })
     }
 }
 
-export async function editUserByUUID(req: Request, res: Response) {
+export async function editUserByUUID(req: Request, res: Response): Promise<void> {
 
     const body = <UserRequest>req.body
     const id = req.params.uuid
