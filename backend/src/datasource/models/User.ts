@@ -17,6 +17,13 @@ export class User {
     name!: string
 
     @Column({
+        type: 'varchar',
+        nullable: false,
+        length: 1000
+    })
+    email!: string
+
+    @Column({
         type: 'text',
         nullable: false
     })
@@ -27,6 +34,17 @@ export class User {
         nullable: false
     })
     dateOfBirth!: Date
+
+    @Column({
+        type: 'longtext'
+    })
+    base64Image!: string
+
+    @Column({
+        type: 'varchar',
+        length: 25
+    })
+    base64ImageName!: string
 
     @OneToOne(() => Address, { cascade: true })
     @JoinColumn()

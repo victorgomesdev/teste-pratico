@@ -1,7 +1,7 @@
 import { Address } from "../../datasource/models/Address";
 import { User } from "../../datasource/models/User";
 
-export default class UserBuilder {
+export class UserBuilder {
 
     private static user = new User()
 

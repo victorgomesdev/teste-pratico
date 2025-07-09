@@ -1,13 +1,12 @@
 import { Router } from 'express'
 import { getAllUsers, getUserByUUID, createUser, editUserByUUID } from '../services/user'
-import { validateUUID } from '../common/validators/validate-uuid'
-import { createUserValidator } from '../common/validators/create-user-validator'
+import { validateUserData, validateUUID } from '../common/validators'
 
 const UserController = Router()
 
-UserController.post('', createUserValidator, createUser)
+UserController.post('', validateUserData, createUser)
 UserController.get('/list', getAllUsers)
 UserController.get('/:uuid', validateUUID, getUserByUUID)
-UserController.put('/edit/:uuid', validateUUID, editUserByUUID)
+UserController.put('/edit/:uuid', validateUUID, validateUserData, editUserByUUID)
 
 export { UserController }

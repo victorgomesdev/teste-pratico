@@ -17,7 +17,7 @@ const MIGRATIONS: MixedList<string | Function> = [
 ]
 
 const AppDataSource = new DataSource({
-    //synchronize: true,
+//synchronize: true,
     type: 'mysql',
     host: 'localhost',
     port: 3306,
