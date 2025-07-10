@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
-import { LayoutComponent } from '@common/layout/layout.component';
+import { LayoutComponent } from '@components/layout/layout.component';
+import { ButtonModule } from 'primeng/button'
+
+import { Card } from '@components/card/card.component';
 
 const IMPORTS = [
-  LayoutComponent
+  LayoutComponent,
+  ButtonModule,
+  Card
 ]
 
 @Component({
@@ -11,5 +16,5 @@ const IMPORTS = [
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'my-profile';
+  title = 'Usuários';
 }
