@@ -1,0 +1,108 @@
+<div
+    class="flex flex-col w-full px-5 py-4 bg-slate-100 rounded-md border border-gray-400 h-[90vh] overflow-y-scroll gap-7">
+    <div class="w-full flex flex-row justify-between">
+        <h2 class="text-slate-800 text-2xl font-semibold">{{user() ? 'Editar usuário': 'Novo usuário'}}</h2>
+        <button (click)="saveForm()" class="text-sm border-2 border-primary text-primary px-2 py-1 rounded-md cursor-pointer hover:bg-primary hover:text-white transition-colors duration-300"><i class="pi pi-check" style="font-size: 0.7rem;"></i> SALVAR</button>
+    </div>
+    <div class="flex flex-row w-full border-l-6 border-primary px-3 gap-7" [formGroup]="formGroup">
+        <div class="flex flex-col w-full gap-5">
+            <h2 class="text-slate-800 text-xl font-semibold">Dados pessoais</h2>
+            <span class="flex flex-col items-center justify-center gap-1">
+                <div class="relative">
+                    <button *ngIf="base64" (click)="cancelImage()" class="rounded-full bg-red-500 text-white px-1 absolute right-2 top-1">
+                        <p class="pi pi-times text-sm"></p>
+                    </button>
+                    <div
+                        class="flex flex-col justify-center items-center rounded-full w-28 h-28 md:w-32 md:h-32 self-center overflow-hidden">
+                        <img [src]="base64? base64: 'assets/user.png'" alt="User" class="w-full h-full object-cover">
+                    </div>
+                    <label for="foto"
+                        class="bg-primary px-1 rounded-full absolute z-50 bottom-1 right-2 cursor-pointer"><i
+                            class="pi pi-camera text-white"></i>
+                    </label>
+                    <input type="file" id="foto" class="hidden w-[1%]" accept="image/*" (change)="onImageSelected($event)">
+                </div>
+            </span>
+            <div class="w-full grid grid-cols-2 gap-5">
+                <p-inputgroup class="col-span-1">
+                    <p-inputGroupAddon>
+                        <i class="pi pi-user"></i>
+                    </p-inputGroupAddon>
+                    <p-floatLabel>
+                        <input pInputText id="name" type="text" formControlName="name"/>
+                        <label for="name">Nome</label>
+                    </p-floatLabel>
+                </p-inputgroup>
+                <p-inputgroup class="col-span-1">
+                    <p-inputGroupAddon>
+                        <i class="pi pi-envelope"></i>
+                    </p-inputGroupAddon>
+                    <p-floatLabel>
+                        <input pInputText id="email" type="email" formControlName="email"/>
+                        <label for="name">Email</label>
+                    </p-floatLabel>
+                </p-inputgroup>
+                <p-floatlabel class="col-span-1 w-full">
+                    <p-datepicker inputId="over_label" showIcon iconDisplay="input" dateFormat="dd/mm/yy" class="w-full"
+                        [style]="{ width: '100%' }" [inputStyle]="{ width: '100%' }" (onSelect)="onDateChange($event)"></p-datepicker>
+                    <label for="over_label">Data de nascimento</label>
+                </p-floatlabel>
+            </div>
+            <div class="grid grid-cols-2 gap-5" [formGroupName]="'address'">
+                <h2 class="text-slate-800 text-xl font-semibold col-span-2">Endereço</h2>
+                <p-inputgroup class="col-span-1">
+                    <p-inputGroupAddon>
+                        <i class="pi pi-map"></i>
+                    </p-inputGroupAddon>
+                    <p-floatLabel>
+                        <input pInputText id="name" type="text" formControlName="street"/>
+                        <label for="name">Rua</label>
+                    </p-floatLabel>
+                </p-inputgroup>
+                <p-inputgroup class="col-span-1">
+                    <p-inputGroupAddon>
+                        <i class="pi pi-map"></i>
+                    </p-inputGroupAddon>
+                    <p-floatLabel>
+                        <p-inputnumber mode="decimal" inputId="withoutgrouping" [useGrouping]="false" formControlName="number"/>
+                        <label for="name">Número</label>
+                    </p-floatLabel>
+                </p-inputgroup>
+                <p-inputgroup class="col-span-1">
+                    <p-inputGroupAddon>
+                        <i class="pi pi-map"></i>
+                    </p-inputGroupAddon>
+                    <p-floatLabel>
+                        <input pInputText id="name" type="text" formControlName="district"/>
+                        <label for="name">Bairro</label>
+                    </p-floatLabel>
+                </p-inputgroup>
+                <p-inputgroup class="col-span-1">
+                    <p-inputGroupAddon>
+                        <i class="pi pi-map"></i>
+                    </p-inputGroupAddon>
+                    <p-floatLabel>
+                        <input pInputText id="name" type="text" formControlName="city"/>
+                        <label for="name">Cidade</label>
+                    </p-floatLabel>
+                </p-inputgroup>
+                <p-inputgroup class="col-span-1">
+                    <p-inputGroupAddon>
+                        <i class="pi pi-map"></i>
+                    </p-inputGroupAddon>
+                    <p-floatlabel class="w-full md:w-56">
+                        <p-select inputId="over_label" [options]="states" class="w-full" formControlName="state"/>
+                        <label for="over_label">Estado</label>
+                    </p-floatlabel>
+                </p-inputgroup>
+            </div>
+            <div class="flex flex-col w-full gap-3">
+                <h2 class="text-slate-800 text-xl font-semibold col-span-2">Biografia</h2>
+                <p-editor [style]="{ height: '320px' }" formControlName="biography"/>
+            </div>
+        </div>
+    </div>
+    <div class="flex w-full flex-row justify-end">
+        
+    </div>
+</div>

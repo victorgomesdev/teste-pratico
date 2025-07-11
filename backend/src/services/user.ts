@@ -6,7 +6,11 @@ import { AddressBuilder } from '../common/util/address-builder'
 
 export async function getAllUsers(_: Request, res: Response): Promise<void> {
     try {
-        const users = await UserRespository.find()
+        const users = await UserRespository.find({
+            relations: {
+                address: true
+            }
+        })
         sendOk(res, {
             users: users
         })

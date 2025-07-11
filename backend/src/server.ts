@@ -1,13 +1,13 @@
 import express from "express";
+import cors from 'cors'
 import AppDataSource from "./datasource/app-data-source";
 import { UserController } from "./controllers/user.controller";
 import { routes } from "./routes";
-import { routesValidator } from "./common/validators";
 
 const app = express()
 
 app.use(express.json())
-app.use(routesValidator)
+app.use(cors())
 
 const connectDatabase = async () => {
     try {

@@ -1,20 +1,12 @@
 <layout>
-    <div class="w-full flex flex-row">
+    <div class="w-full flex flex-row gap-2">
         <div class="w-1/4 bg-slate-100 rounded-md border border-gray-400 h-[90vh] overflow-y-scroll">
-            <card />
-            <card />
-            <card />
-            <card />
-            <card />
-            <card />
-            <card />
-            <card />
-            <card />
-            <card />
-            <card />
+            <card *ngFor="let user of users" (clicked)="onCardSelected($event)" [user]="user"/>
+            
         </div>
         <div class="w-3/4 h-full">
-
+            <user-form *ngIf="user && editing" [user]="user"/>  
+            <profile *ngIf="user && !editing" [user]="user" (edit)="toogleEdit()"/>
         </div>
     </div>
 </layout>

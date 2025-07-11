@@ -1,9 +1,12 @@
 <div
-    class="w-full flex flex-row justify-between p-2 gap-2 items-center bg-slate-200 border-b border-gray-400 cursor-pointer">
-    <img src="assets/img.jpg" class="w-14 h-14 rounded-full object-fill">
+    [ngClass]="{'border-l-6 border-primary': isSelected,}"
+    class="w-full flex flex-row justify-between p-2 gap-2 items-center bg-slate-200 border-b border-gray-400 cursor-pointer"
+    (click)="handleClick()"
+    >
+    <img [src]="user()?.imageBase64 ? user()?.imageBase64 : 'assets/user.png'" class="w-14 h-14 rounded-full object-cover">
     <div class="w-full flex flex-col">
-        <h3 class="text-slate-800 font-semibold text-lg">Nome</h3>
+        <h3 [ngClass]="{'text-primary': isSelected, 'text-slate-800': !isSelected}" class="font-semibold text-lg">{{user()?.name}}</h3>
         <span class="text-sm text-slate-700"><i class="pi pi-envelope" style="font-size: 0.7rem;"></i>
-            teste&#64;teste.com</span>
+            {{user()?.email}}</span>
     </div>
 </div>
