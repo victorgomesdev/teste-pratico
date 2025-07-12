@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   @ViewChildren(CardComponent) cards!: QueryList<CardComponent>
 
   userService = inject(UserService)
-  user!: User
+  user?: User
   users!: User[]
   editing = false
 
@@ -40,8 +40,14 @@ export class AppComponent implements OnInit {
   }
 
   onCardSelected(id: string): void {
+    if(this.editing) this.editing = false;
     this.cards.forEach(card => card.toogle(id))
     this.user = this.users.filter(u=> u.id === id)[0]
+  }
+
+  onNewUser(): void {
+    this.user = undefined
+    this.editing = true
   }
 
   toogleEdit(): void {

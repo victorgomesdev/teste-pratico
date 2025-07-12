@@ -42,11 +42,10 @@
                         <label for="name">Email</label>
                     </p-floatLabel>
                 </p-inputgroup>
-                <p-floatlabel class="col-span-1 w-full">
-                    <p-datepicker inputId="over_label" showIcon iconDisplay="input" dateFormat="dd/mm/yy" class="w-full"
-                        [style]="{ width: '100%' }" [inputStyle]="{ width: '100%' }" (onSelect)="onDateChange($event)"></p-datepicker>
-                    <label for="over_label">Data de nascimento</label>
-                </p-floatlabel>
+                <div class="flex flex-col">
+                    <label class="text-sm" for="data">Data de Nascimento</label>
+                    <input type="date" id="data" class="bg-white p-2 rounded-md border border-paragraph outline-none cursor-pointer" (change)="onDateChange($event)"/>
+                </div>
             </div>
             <div class="grid grid-cols-2 gap-5" [formGroupName]="'address'">
                 <h2 class="text-slate-800 text-xl font-semibold col-span-2">Endereço</h2>

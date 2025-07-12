@@ -61,7 +61,7 @@ export class UserFormComponent implements OnInit {
             })
         })
 
-        if(this.user()) {
+        if (this.user()) {
             delete this.user()?.id
             this.formGroup.setValue({
                 name: this.user()?.name,
@@ -94,25 +94,50 @@ export class UserFormComponent implements OnInit {
         this.formGroup.get('imageBase64')?.reset()
     }
 
-    onDateChange(date: Date): void {
-        this.formGroup.get('dateOfBirth')?.setValue(date.toISOString().split('T')[0])
+    onDateChange(event: Event): void {
+        this.formGroup.get('dateOfBirth')?.setValue((<HTMLInputElement>event.target).value)
     }
 
     saveForm() {
         if (this.formGroup.valid) {
             this.userService.createUser(this.formGroup.value)
-            .subscribe({
-                next: ()=>{
-                    alert("Usuário cadastrado.")
-                },
-                error: (err: HttpErrorResponse)=> alert(err.error.message)
-            })
-        }else{
+                .subscribe({
+                    next: () => {
+                        alert("Usuário cadastrado.")
+                    },
+                    error: (err: HttpErrorResponse) => alert(err.error.message)
+                })
+        } else {
             alert("Campos inválidos!")
         }
     }
 
     states = [
-        "MG"
+        "AC",
+        "AL",
+        "AM",
+        "AP",
+        "BA",
+        "CE",
+        "DF",
+        "ES",
+        "GO",
+        "MA",
+        "MG",
+        "MT",
+        "MS",
+        "PA",
+        "PI",
+        "PR",
+        "PE",
+        "RA",
+        "RJ",
+        "RS",
+        "RN",
+        "RO",
+        "SC",
+        "SE",
+        "SP",
+        "TO"
     ]
 }
