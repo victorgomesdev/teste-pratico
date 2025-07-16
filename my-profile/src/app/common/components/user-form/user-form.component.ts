@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit } from "@angular/core";
+import { Component, inject, input, OnInit, output } from "@angular/core";
 import { CommonModule } from '@angular/common'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { imageToBase64Util } from "../../util/image-64";
@@ -39,7 +39,10 @@ export class UserFormComponent implements OnInit {
     formBuilder = new FormBuilder()
     userService = inject(UserService)
 
+    userUUID!: string
     user = input<User>()
+    editedUser = output<User>()
+    close = output()
     base64!: string
 
     ngOnInit(): void {
@@ -49,7 +52,8 @@ export class UserFormComponent implements OnInit {
             email: ['', Validators.required],
             dateOfBirth: ['', Validators.required],
             biography: ['', Validators.required],
-            imageBase64: this.formBuilder.control(''),
+            base64Image: this.formBuilder.control(''),
+            base64ImageName: this.formBuilder.control(''),
             address: this.formBuilder.group({
                 number: this.formBuilder.control(undefined, {
                     validators: [Validators.required]
@@ -62,12 +66,15 @@ export class UserFormComponent implements OnInit {
         })
 
         if (this.user()) {
+            this.userUUID = <string>this.user()?.id
+            this.base64 = <string>this.user()?.base64Image
             delete this.user()?.id
             this.formGroup.setValue({
                 name: this.user()?.name,
-                dateOfBirth: new Date(this.user()?.dateOfBirth as string),
+                dateOfBirth: this.user()?.dateOfBirth,
                 email: this.user()?.email,
                 biography: this.user()?.biography,
+                base64ImageName: '',
                 address: {
                     number: this.user()?.address.number,
                     street: this.user()?.address.street || " ",
@@ -75,7 +82,7 @@ export class UserFormComponent implements OnInit {
                     city: this.user()?.address.city || " ",
                     state: this.user()?.address.state
                 },
-                imageBase64: this.user()?.imageBase64 || " "
+                base64Image: this.user()?.base64Image || ""
             })
         }
     }
@@ -83,33 +90,58 @@ export class UserFormComponent implements OnInit {
     async onImageSelected(input: Event): Promise<void> {
         try {
             this.base64 = (await imageToBase64Util(<HTMLInputElement>input.target)).base64
-            this.formGroup.get('imageBase64')?.setValue(this.base64)
+            this.formGroup.get('base64Image')?.setValue(this.base64)
         } catch (e) {
-            if (e === -1) console.log('Imagem muito grande')
+            if (e === -1) alert('Imagem muito grande')
         }
     }
 
     cancelImage(): void {
         this.base64 = ''
-        this.formGroup.get('imageBase64')?.reset()
+        this.formGroup.get('base64Image')?.reset()
     }
 
     onDateChange(event: Event): void {
         this.formGroup.get('dateOfBirth')?.setValue((<HTMLInputElement>event.target).value)
     }
 
-    saveForm() {
+    saveForm(): void {
         if (this.formGroup.valid) {
-            this.userService.createUser(this.formGroup.value)
+            if (!this.user()) {
+                this.userService.createUser(this.formGroup.value)
+                    .subscribe({
+                        next: () => {
+                            alert("Usuário cadastrado.")
+                        },
+                        error: (err: HttpErrorResponse) => alert(err.error.message)
+                    })
+                return
+            }
+            this.userService.editUser({
+                id: this.userUUID,
+                ...this.formGroup.value
+            })
                 .subscribe({
-                    next: () => {
-                        alert("Usuário cadastrado.")
+                    next: (res) => {
+                        if (res.updated) alert("Usuário editado com sucesso!")
+                        this.editedUser.emit(this.formGroup.value)
                     },
-                    error: (err: HttpErrorResponse) => alert(err.error.message)
+                    error: (err) => {
+                        alert(err.error.message)
+                    }
                 })
         } else {
             alert("Campos inválidos!")
         }
+    }
+
+    closeForm(): void {
+        this.close.emit()
+    }
+
+    reset(): void {
+        this.base64 = ''
+        this.formGroup.reset()
     }
 
     states = [

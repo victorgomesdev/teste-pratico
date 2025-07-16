@@ -4,6 +4,7 @@ import { DataSource, MixedList } from "typeorm";
 import { EntitySchema } from "typeorm";
 import { Address } from './models/Address';
 import { User } from './models/User';
+import { Migrations1752694138800 } from './migrations/1752694138800-migrations';
 
 dotenv.config()
 
@@ -13,11 +14,11 @@ const ENTITIES: MixedList<string | Function | EntitySchema> = [
 ]
 
 const MIGRATIONS: MixedList<string | Function> = [
-
+    Migrations1752694138800
 ]
 
 const AppDataSource = new DataSource({
-//synchronize: true,
+    //synchronize: true,
     type: 'mysql',
     host: 'localhost',
     port: 3306,

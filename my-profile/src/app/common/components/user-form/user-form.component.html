@@ -1,8 +1,14 @@
 <div
     class="flex flex-col w-full px-5 py-4 bg-slate-100 rounded-md border border-gray-400 h-[90vh] overflow-y-scroll gap-7">
-    <div class="w-full flex flex-row justify-between">
+    <div class="w-full flex flex-row justify-between items-center">
         <h2 class="text-slate-800 text-2xl font-semibold">{{user() ? 'Editar usuário': 'Novo usuário'}}</h2>
-        <button (click)="saveForm()" class="text-sm border-2 border-primary text-primary px-2 py-1 rounded-md cursor-pointer hover:bg-primary hover:text-white transition-colors duration-300"><i class="pi pi-check" style="font-size: 0.7rem;"></i> SALVAR</button>
+        <div class="flex flex-col gap-3">
+            <button (click)="closeForm()"
+                    class="md:hidden border-2 border-red-500 rounded-md text-red-500 px-2 py-1 hover:bg-red-500 hover:text-background transition-colors duration-300 cursor-pointer">
+                    CANCELAR
+                </button>
+            <button (click)="saveForm()" class="text-sm border-2 border-primary text-primary px-2 py-1 rounded-md cursor-pointer hover:bg-primary hover:text-white transition-colors duration-300"><i class="pi pi-check" style="font-size: 0.7rem;"></i> SALVAR</button>
+        </div>
     </div>
     <div class="flex flex-row w-full border-l-6 border-primary px-3 gap-7" [formGroup]="formGroup">
         <div class="flex flex-col w-full gap-5">
@@ -24,7 +30,7 @@
                 </div>
             </span>
             <div class="w-full grid grid-cols-2 gap-5">
-                <p-inputgroup class="col-span-1">
+                <p-inputgroup class="col-span-2 md:col-span-1">
                     <p-inputGroupAddon>
                         <i class="pi pi-user"></i>
                     </p-inputGroupAddon>
@@ -33,7 +39,7 @@
                         <label for="name">Nome</label>
                     </p-floatLabel>
                 </p-inputgroup>
-                <p-inputgroup class="col-span-1">
+                <p-inputgroup class="col-span-2 md:col-span-1">
                     <p-inputGroupAddon>
                         <i class="pi pi-envelope"></i>
                     </p-inputGroupAddon>
@@ -44,12 +50,12 @@
                 </p-inputgroup>
                 <div class="flex flex-col">
                     <label class="text-sm" for="data">Data de Nascimento</label>
-                    <input type="date" id="data" class="bg-white p-2 rounded-md border border-paragraph outline-none cursor-pointer" (change)="onDateChange($event)"/>
+                    <input type="date" id="data" class="bg-white p-2 rounded-md border border-paragraph outline-none cursor-pointer" (change)="onDateChange($event)" formControlName="dateOfBirth"/>
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-5" [formGroupName]="'address'">
                 <h2 class="text-slate-800 text-xl font-semibold col-span-2">Endereço</h2>
-                <p-inputgroup class="col-span-1">
+                <p-inputgroup class="col-span-2 md:col-span-1">
                     <p-inputGroupAddon>
                         <i class="pi pi-map"></i>
                     </p-inputGroupAddon>
@@ -58,7 +64,7 @@
                         <label for="name">Rua</label>
                     </p-floatLabel>
                 </p-inputgroup>
-                <p-inputgroup class="col-span-1">
+                <p-inputgroup class="col-span-2 md:col-span-1">
                     <p-inputGroupAddon>
                         <i class="pi pi-map"></i>
                     </p-inputGroupAddon>
@@ -67,7 +73,7 @@
                         <label for="name">Número</label>
                     </p-floatLabel>
                 </p-inputgroup>
-                <p-inputgroup class="col-span-1">
+                <p-inputgroup class="col-span-2 md:col-span-1">
                     <p-inputGroupAddon>
                         <i class="pi pi-map"></i>
                     </p-inputGroupAddon>
@@ -76,7 +82,7 @@
                         <label for="name">Bairro</label>
                     </p-floatLabel>
                 </p-inputgroup>
-                <p-inputgroup class="col-span-1">
+                <p-inputgroup class="col-span-2 md:col-span-1">
                     <p-inputGroupAddon>
                         <i class="pi pi-map"></i>
                     </p-inputGroupAddon>
@@ -85,7 +91,7 @@
                         <label for="name">Cidade</label>
                     </p-floatLabel>
                 </p-inputgroup>
-                <p-inputgroup class="col-span-1">
+                <p-inputgroup class="col-span-2 md:col-span-1">
                     <p-inputGroupAddon>
                         <i class="pi pi-map"></i>
                     </p-inputGroupAddon>

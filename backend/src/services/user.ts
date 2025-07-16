@@ -72,8 +72,8 @@ export async function createUser(req: Request, res: Response): Promise<void> {
             .setEmail(body.email)
             .setBiography(body.biography)
             .setDateOfBith(body.dateOfBirth)
-            .setBase64Image(body.imageBase64 ? body.imageBase64 : '')
-            .setBase64Nmae(body.imageBase64Name ? body.imageBase64Name : '')
+            .setBase64Image(body.base64Image ? body.base64Image : '')
+            .setBase64Nmae(body.base64ImageName ? body.base64ImageName : '')
             .setAddress(address)
             .build()
 
@@ -112,6 +112,7 @@ export async function editUserByUUID(req: Request, res: Response): Promise<void>
             })
             return
         }
+        console.log(body)
         Object.assign(user, body)
         Object.assign(user.address, body.address)
 

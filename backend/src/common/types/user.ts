@@ -6,6 +6,6 @@ export type UserRequest = {
     dateOfBirth: string,
     biography: string,
     address: Address,
-    imageBase64?: string
-    imageBase64Name?: string
+    base64Image?: string
+    base64ImageName?: string
 }

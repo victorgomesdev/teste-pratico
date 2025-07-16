@@ -14,7 +14,7 @@ export function validateUserData(req: Request, res: Response, next: NextFunction
     const body = <UserRequest>req.body
     const tests: boolean[] = [
         validateUndefinedFields(body),
-        body.imageBase64 ? validarBase64Imagem(body.imageBase64) : true,
+        body.base64Image ? validarBase64Imagem(body.base64Image) : true,
         validateInfo(body),
         validateAddress(body.address)
     ]
@@ -35,6 +35,7 @@ function validateUndefinedFields(user: UserRequest): boolean {
             return false
         }
     }
+    
     return true
 }
 
@@ -45,22 +46,23 @@ function validateInfo(user: UserRequest): boolean {
     const tests: boolean[] = [
         String(user.name).length > 1,
         dateTest.test(user.dateOfBirth),
-        user.imageBase64 ? validarBase64Imagem(user.imageBase64) : true
+        user.base64Image ? validarBase64Imagem(user.base64Image) : true
     ]
 
     if (tests.some(t => t === false)) {
         return false
     }
+    
     return true
 }
 
-function validarBase64Imagem(imageBase64: string): boolean {
+function validarBase64Imagem(base64Image: string): boolean {
 
-    if (!imageBase64.startsWith('data:image/')) {
+    if (!base64Image.startsWith('data:image/')) {
         return false;
     }
 
-    const base64 = imageBase64.split(',')[1];
+    const base64 = base64Image.split(',')[1];
 
     if (!base64 || !/^[A-Za-z0-9+/]*={0,2}$/.test(base64)) {
         return false;
@@ -69,6 +71,7 @@ function validarBase64Imagem(imageBase64: string): boolean {
     if (base64.length % 4 !== 0) {
         return false;
     }
+    
     return true;
 }
 
@@ -85,5 +88,6 @@ function validateAddress(address: Address): boolean {
     if (tests.some(t => t === false)) {
         return false
     }
+    
     return true
 }

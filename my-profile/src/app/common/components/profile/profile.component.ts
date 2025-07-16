@@ -12,6 +12,11 @@ export class ProfileComponent {
 
     user = input<User>()
     edit = output()
+    close = output()
+
+    closeProfile(): void {
+        this.close.emit()
+    }
 
     editUser(): void {
 

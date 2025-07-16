@@ -17,7 +17,7 @@ export class CardComponent {
     clicked = output<string>()
     isSelected: boolean = false
 
-    toogle(id: string): void {
+    toggle(id: string): void {
         switch (this.isSelected) {
             case true: {
                 if(this.user()?.id !== id) {

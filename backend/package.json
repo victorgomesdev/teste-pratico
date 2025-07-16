@@ -8,7 +8,8 @@
     "start:dev": "npx nodemon",
     "start:prod": "node ./dist/server.js",
     "buid": "npx tsc",
-    "typeorm": "typeorm-ts-node-commonjs"
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migrate": "npm run typeorm migration:run -- -d ./src/datasource/app-data-source.ts"
   },
   "author": "Victor Gomes",
   "dependencies": {

@@ -1,12 +1,11 @@
 <layout (newUser)="onNewUser()">
     <div class="w-full flex flex-row gap-2">
-        <div class="w-1/4 bg-slate-100 rounded-md border border-gray-400 h-[90vh] overflow-y-scroll">
+        <div #sideBarDiv class="w-full md:w-2/5 bg-slate-100 rounded-md border border-gray-400 h-[90vh] overflow-y-scroll">
             <card *ngFor="let user of users" (clicked)="onCardSelected($event)" [user]="user"/>
-            
         </div>
-        <div class="w-3/4 h-full">
-            <user-form *ngIf="editing" [user]="user"/>  
-            <profile *ngIf="user && !editing" [user]="user" (edit)="toogleEdit()"/>
+        <div class="hidden md:block md:w-3/5 h-full" #panelDiv>
+            <user-form *ngIf="editing" [user]="user" (editedUser)="onUserEdited($event)" (close)="toggleProfile()"/>  
+            <profile *ngIf="user && !editing" [user]="user" (edit)="toggleEdit()" (close)="toggleProfile()"/>
         </div>
     </div>
 </layout>
